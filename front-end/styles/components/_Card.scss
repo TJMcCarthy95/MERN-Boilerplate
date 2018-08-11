@@ -1,0 +1,10 @@
+.CardColumns {
+  margin: 50px;
+  .Card {
+    box-shadow: 10px 10px 10px;
+    padding: 10px;
+    .Image {
+      padding: 20px;
+    }
+  }
+}

@@ -1,0 +1,16 @@
+body {
+  background-color: $primary-background;
+
+  .text-center {
+    text-align: center;
+  }
+
+  .highlight-title {
+    font-weight: bold;
+    color: $primary-text-highlight;
+  }
+
+  .highlight-text {
+    color: $secondary-text;
+  }
+}
