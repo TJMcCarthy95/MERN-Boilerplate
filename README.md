@@ -21,7 +21,6 @@ Included Technologies:
 * [Nodemon](https://nodemon.io/)
 * [Babel](https://babeljs.io/)
 * [Sass](https://sass-lang.com/)
-* [reactstrap](https://reactstrap.github.io/)
 
 Included Packages:
 * [concurrently](https://github.com/kimmobrunfeldt/concurrently)
