@@ -1,21 +1,13 @@
-import React, { Component, Button } from 'react'
+import { appName, developer, licence } from "Config";
+import React from "react";
 
-import Jumbotron from './ReactStrap/Jumbotron'
-
-
-class Header extends Component {
-
-  render() {
-    return (
-      <Jumbotron
-        fluid={true}
-        class={"text-center"}
-        title={"MERN Boilerplate"}
-        subTitle={"Mongodb - ExpressJs - ReactJs - NodeJs"}
-        break={true}
-      />
-    );
-  }
+export default function Header() {
+  return (
+    <div className="jumbotron-fluid text-center header">
+      <h1 className="display-4">{appName}</h1>
+      <p className="info"><i>Author:</i> {developer} <span>&bull;</span> <i>Licence:</i> {licence}</p>
+      <hr className="my-4"/>
+      <h2>Mongodb - ExpressJs - ReactJs - NodeJs</h2>
+    </div>
+  );
 }
-
-export default Header

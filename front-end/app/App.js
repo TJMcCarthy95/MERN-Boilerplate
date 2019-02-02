@@ -1,21 +1,12 @@
-import React, { Component } from 'react'
+import React from "react";
+import Header from "./components/Header";
+import HomePage from "./views/HomePage";
 
-import Header from './components/Header'
-import Footer from './components/Footer'
-import HomePage from './views/HomePage'
-
-const Config = require('Config')
-
-class App extends Component {
-  render() {
-    return(
-      <div>
-        <Header Config={Config}/>
-        <HomePage />
-        <Footer />
-      </div>
-    )
-  }
+export default function App() {
+  return (
+    <div>
+      <Header/>
+      <HomePage />
+    </div>
+  );
 }
-
-export default App

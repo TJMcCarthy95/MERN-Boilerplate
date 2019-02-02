@@ -1,7 +1,18 @@
-import { GET_PACKAGES, ADD_PACKAGE, DELETE_PACKAGE } from './types'
+import { FETCH_PACKAGES, INITIALIZE_TECHNOLOGIES } from "./types";
+import { action, API } from "./utils";
 
-export const getPackages = () => {
-  return {
-    type: GET_PACKAGES
-  }
+const APIPackages = (target = "", options) => API(`packages${target}`, options);
+
+export const getPackages = () => dispatch => {
+  dispatch(action(
+    FETCH_PACKAGES,
+    APIPackages()
+  ));
+}
+
+export const initializePackages = () => dispatch => {
+  dispatch(action(
+    INITIALIZE_TECHNOLOGIES,
+    APIPackages("/initialize")
+  ));
 }
