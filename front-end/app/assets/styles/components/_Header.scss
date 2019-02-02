@@ -1,0 +1,16 @@
+.header {
+  background-color: $secondary-background-accent;
+  width: 100%;
+  padding: 20px;
+  margin-bottom: 20px;
+  .info {
+    font-size: 12px;
+    span {
+      margin: 0 10px;
+    }
+  }
+  h2 {
+    font-size: 24px;
+    font-weight: 400;
+  }
+}

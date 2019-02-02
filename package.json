@@ -3,19 +3,19 @@
   "version": "1.0.0",
   "description": "MERN Boilerplate",
   "scripts": {
-    "start": "concurrently \"npm run back-end\" \"npm run front-end\"",
-    "install": "npm run front-end-install && npm run back-end-install",
+    "start": "npm run build-prod --prefix front-end && npm start --prefix back-end",
     "back-end": "npm start --prefix back-end",
     "front-end": "npm start --prefix front-end",
+    "dev": "concurrently \"npm run dev-back-end\" \"npm run dev-front-end\"",
     "dev-back-end": "npm run dev --prefix back-end",
     "dev-front-end": "npm run dev --prefix front-end",
-    "dev": "concurrently \"npm run dev-back-end\" \"npm run dev-front-end\"",
+    "install": "npm run front-end-install && npm run back-end-install",
     "front-end-install": "npm install --prefix front-end",
     "back-end-install": "npm install --prefix back-end"
   },
   "author": "Taylor McCarthy",
   "license": "MIT",
-  "dependencies": {
-    "concurrently": "^3.6.1"
+  "devDependencies": {
+    "concurrently": "^4.1.0"
   }
 }

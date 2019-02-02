@@ -1,54 +1,51 @@
-import React, { Component } from 'react'
-import { CardColumns, Button } from 'reactstrap';
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-
-import { getTechnologies } from '../actions/technologyActions'
-import { getPackages } from '../actions/packageActions'
-
-import Card from '../components/ReactStrap/Card'
-import Jumbotron from '../components/ReactStrap/Jumbotron'
+import PropTypes from "prop-types";
+import { Component } from "react";
+import { connect } from "react-redux";
+import { getPackages, initializePackages } from "../actions/packageActions";
+import Render from "./HomePageRender";
 
 class HomePage extends Component {
 
-  componentDidMount() {
-    this.props.getTechnologies()
-    this.props.getPackages()
+  constructor(props) {
+    super(props);
+    props.getPackages()
   }
 
+  get packages() {
+    return this.props.packages;
+  }
+
+  get corePackages() {
+    return this.packages.filter(pkg => pkg.type === "core");
+  }
+
+  get toolPackages() {
+    return this.packages.filter(pkg => pkg.type === "tool");
+  }
+
+  initialize = () => this.props.initializePackages();
+
   render() {
-    const { technologies } = this.props.technology;
-    const { packages } = this.props.package;
-
-    return (
-      <div>
-        <h4 className="text-center highlight-text">Some of the technologies used in this Boilerplate</h4>
-        <CardColumns className="CardColumns">
-          {technologies.map(({ id, name, description, img_src, home_page }) => (
-            <Card key={id} name={name} description={description} img={img_src}  btn={{block: true, link: home_page, target: '_blank', color: 'info', text: 'Read More'}}/>
-          ))}
-        </CardColumns>
-
-        <h4 className="text-center highlight-text">Other great packages</h4>
-        <CardColumns className="CardColumns">
-          {packages.map(({ id, name, description, img_src, home_page }) => (
-            <Card key={id} name={name} description={description} img={img_src} btn={{block: true, link:home_page, target: '_blank', color: 'info', text: 'Read More'}}/>
-          ))}
-        </CardColumns>
-      </div>
-    );
+    return Render.call(this, this.props, this.state);
   }
 }
 
 HomePage.propTypes = {
-  getTechnologies: PropTypes.func.isRequired,
-  technology: PropTypes.object.isRequired,
-  package: PropTypes.object.isRequired
+  getPackages: PropTypes.func.isRequired,
+  packages: PropTypes.array.isRequired
 }
 
-const mapStateToProps = (state) => ({
-  technology: state.technology,
-  package: state.package
+HomePage.defaultProps = {
+  packages: []
+}
+
+const mapStateToProps = state => ({
+  packages: state.package.packages
 })
 
-export default connect(mapStateToProps, { getTechnologies, getPackages })(HomePage)
+const mapDispatchToProps = dispatch => ({
+  initializePackages: () => dispatch(initializePackages()),
+  getPackages: () => dispatch(getPackages())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage)

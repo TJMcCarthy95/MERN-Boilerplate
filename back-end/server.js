@@ -1,38 +1,54 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
-const path = require('path')
+const express = require("express");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const path = require("path");
+const Logger = require("./utils").Logger;
+const Config = require("./config");
+const cors = require("cors");
+const app = express();
 
-const Config = require('./config/config.js')
-const items = require('./routes/api/items.js')
+const {
+  NODE_ENV = "default",
+  PORT = Config.port
+} = process.env;
 
-const app = express()
+
+// Server Config
+const corsOptions = {
+  origin: (origin, done) => {
+    Config.whitelist.indexOf(origin) !== -1 || !origin
+      ? done(null, true)
+      : done(new Error("Not allwed by CORS"))
+  },
+  methods: "GET,PUT,POST,DELETE",
+  optionsSuccessStatus: 200
+};
 
 // Bodyparser Middleware
-app.use(bodyParser.json())
-
-// DB Config
-const db = Config.mongoURI
+app.use(
+  cors(corsOptions),
+  bodyParser.json()
+);
 
 // Connect to Mongo
 mongoose
-  .connect(db)
-  .then(() => console.log('MongoDB Connected...'))
-  .catch(err => console.log("Unable to connect to MongoDB - Check config file"));
+  .connect(Config.mongoURI)
+  .then(() => Logger.info(`MongoDB connected to ${Config.mongoURI}`))
+  .catch(err => Logger.error(`MongoDB couldn't connect to ${Config.mongoURI}\n${err}`));
+
 
 // Use Routes
-app.use('/api/items', items)
+app.get("/", (req, res) => res.send("API Running!")); // Home Landing page
+app.use("/api/packages", require("./routes/api/packages"));
 
 // Serve static assets for production
-if(process.env.NODE_ENV === 'production'){
+if(NODE_ENV === "production"){
   // Set static folder
-  app.use(express.static('client/build'))
+  app.use(express.static("client/build"));
 
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
-  })
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
 }
 
-const port = process.env.PORT || 5000
-
-app.listen(port, () => console.log('Server started on port ' + port));
+app.listen(PORT, () => Logger.log(`${Config.appName} started on port ${PORT}`));
